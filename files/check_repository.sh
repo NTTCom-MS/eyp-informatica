@@ -29,23 +29,23 @@ fi
 
 if [ ! -f "$1" ];
 then
-  echo "unable to read configuration file: $1"
+  echo "unable to read configuration file: $1" >&2
   exit 3
 fi
 
 if [ ! -f "${INF_INSTALL_BASE}/${INF_VERSION}/server/bin/pmrep" ];
 then
-  echo "ERROR - pmrep not found"
+  echo "ERROR - pmrep not found" >&2
   exit 3
 fi
 
 . $1
 
-sudo -u "${INF_RUN_USER}" INFA_HOME="${INF_INSTALL_BASE}/${INF_VERSION}" LD_LIBRARY_PATH="${INF_INSTALL_BASE}/${INF_VERSION}/server/bin" ${INF_INSTALL_BASE}/${INF_VERSION}/server/bin/pmrep connect -r "${INF_REPOSITORY}" -d "${INF_DOMAIN}" -s "${INF_ADMINUSER_SD}" -n "${INF_ADMINUSER}" -x "${INF_ADMINUSER_PASSWORD}"
+sudo -u "${INF_RUN_USER}" INFA_HOME="${INF_INSTALL_BASE}/${INF_VERSION}" LD_LIBRARY_PATH="${INF_INSTALL_BASE}/${INF_VERSION}/server/bin" ${INF_INSTALL_BASE}/${INF_VERSION}/server/bin/pmrep connect -r "${INF_REPOSITORY}" -d "${INF_DOMAIN}" -s "${INF_ADMINUSER_SD}" -n "${INF_ADMINUSER}" -x "${INF_ADMINUSER_PASSWORD}" > /dev/null 2>&1
 
 if [ $? -eq 0 ];
 then
-  sudo -u "${INF_RUN_USER}" INFA_HOME="${INF_INSTALL_BASE}/${INF_VERSION}" LD_LIBRARY_PATH="${INF_INSTALL_BASE}/${INF_VERSION}/server/bin" ${INF_INSTALL_BASE}/${INF_VERSION}/server/bin/pmrep connect -r "${INF_ADMIN_LISTEN}" -h 127.0.0.1 -o "${INF_ADMIN_LISTEN}" -s "${INF_ADMINUSER_SD}" -n "${INF_ADMINUSER}" -x "${INF_ADMINUSER_PASSWORD}"
+  sudo -u "${INF_RUN_USER}" INFA_HOME="${INF_INSTALL_BASE}/${INF_VERSION}" LD_LIBRARY_PATH="${INF_INSTALL_BASE}/${INF_VERSION}/server/bin" ${INF_INSTALL_BASE}/${INF_VERSION}/server/bin/pmrep connect -r "${INF_REPOSITORY}" -h 127.0.0.1 -o "${INF_ADMIN_LISTEN}" -s "${INF_ADMINUSER_SD}" -n "${INF_ADMINUSER}" -x "${INF_ADMINUSER_PASSWORD}" > /dev/null 2>&1
 
   if [ $? -eq 0 ];
   then
